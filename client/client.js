@@ -211,7 +211,7 @@ if (Meteor.isCordova) {
                 return rad * 180 / Math.PI;
             }
             //Template.instance().data.lastPos;
-            var b = bearing(Session.get('pos').latitude, Session.get('pos').longitude, Template.currentData().lastPos.lat, Template.currentData().lastPos.lng);
+            var b = Session.get('angle') - bearing(Session.get('pos').latitude, Session.get('pos').longitude, Template.currentData().lastPos.lat, Template.currentData().lastPos.lng);
             return -1 * b;
         }
     });
