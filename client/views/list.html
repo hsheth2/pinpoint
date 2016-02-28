@@ -1,7 +1,7 @@
 <template name="list">
     <title id="title" class="sr-only">Nearby</title>
     
-    <b>Your Position:</b> ({{cleanCoord latPos}}, {{cleanCoord lngPos}})
+    <b>Your Position:</b> {{#if latPos}}({{cleanCoord latPos}}, {{cleanCoord lngPos}}){{else}} (loading...) {{/if}}<br>
     {{#if currentUser}}
         {{#if currentUser.profile.follow}}
             <!--<ul>
@@ -18,10 +18,10 @@
                 <table class="table table-striped table-bordered">
                     <thead> 
                         <tr> 
-                            <th class="col-xs-3"><h4>Username</h4></th>
-                            <th class="col-xs-3"><h4>Distance</h4></th>
-                            <th class="col-xs-3"><h4>Last Updated</h4></th>
-                            <th class="col-xs-3"><h4>Direction</h4></th>
+                            <th class="col-xs-3">Username</th>
+                            <th class="col-xs-3">Distance</th>
+                            <th class="col-xs-3">Last Updated</th>
+                            <th class="col-xs-3">Direction</th>
                         </tr>
                     </thead>
                     <tbody>

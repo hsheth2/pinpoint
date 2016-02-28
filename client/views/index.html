@@ -8,4 +8,5 @@
         </div>
         <h3>User: <small>{{currentUser.username}}</small></h3>
         <p>You currently have {{numNearby}} friends nearby.</p>
+        <p>Total friends: {{#if numFriends}}{{numFriends}}{{else}}0{{/if}}</p>
 </template>

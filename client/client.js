@@ -1,3 +1,8 @@
+Meteor.startup(function() {
+    //Session.set('pos', {latitude: 0, longitude: 0});
+});
+
+
 setInterval(function() {
     if (Meteor.user()) {
         navigator.geolocation.getCurrentPosition(
@@ -69,6 +74,9 @@ Template.follow.events({
 Template.index.helpers({
     'numNearby': function() {
         return Meteor.users.find({}).count() - 1;
+    },
+    'numFriends': function() {
+        return Meteor.user().profile.follow.length;
     }
 });
 
@@ -163,7 +171,7 @@ if (Meteor.isCordova) {
         },
 
         logs: function() {
-            // return Session.get("logs");
+            return Session.get('pos').latitude + " " +  Session.get('pos').longitude + " " + Template.instance().data.lat + " " + Template.instance().data.lng;
         },
 
         angleArrow: function() {
@@ -182,7 +190,7 @@ if (Meteor.isCordova) {
     });
 }
 
-function setPageTitle() {
+var setPageTitle = function setPageTitle() {
     var title = $("#title").text();
     console.log("Title is " + title);
     $("#page-title").text(title);
