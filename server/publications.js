@@ -1,8 +1,30 @@
 Meteor.publish("inRange", function() {
     if(!this.userId) return [];
-    var user = Meteor.users.findOne(this.userId);
     
-    console.log("inRange for:"+user.username);
+    //console.log("inRange publish..");
+    /*Meteor.users.findOne({_id: this.userId}, function(err, user) {
+        console.log("inside findone");
+        if(!err) {
+            if(user && user.profile.lastPos) {
+                var myLoc = user.profile.lastPos;
+                var myFixedLoc = {latitude: myLoc.lat, longitude: myLoc.lng};
+                
+                
+                /*return Meteor.users.find({_id: {$in: user.profile.follow}, $where: function() {
+            var lastLoc = this.profile.lastPos;
+            var fixedLoc = {latitude: lastLoc.lat, longitude: lastLoc.lng};
+            var distance = geolib.getDistance(myFixedLoc, fixedLoc, 1, 8);
+            return distance < 50;
+        }}, {fields: {'username': 1, 'profile.lastPos': 1}  });
+                
+                return Meteor.users.find({_id: {$in: user.profile.follow}})
+            }
+        }
+    });*/
+    
+    return Meteor.users.find({});
+    
+    /*console.log("inRange for:"+user.username);
     if(user && user.profile.follow) {
         var myLoc = user.profile.lastPos;
         var myFixedLoc = {latitude: myLoc.lat, longitude: myLoc.lng};
@@ -15,9 +37,9 @@ Meteor.publish("inRange", function() {
             var fixedLoc = {latitude: lastLoc.lat, longitude: lastLoc.lng};
             var distance = geolib.getDistance(myFixedLoc, fixedLoc, 1, 8);
             return distance < 50;
-        }}, {fields: {'username': 1, 'profile.lastPos': 1}  });*/
+        }}, {fields: {'username': 1, 'profile.lastPos': 1}  });
         
         return Meteor.users.find({_id: {$in: user.profile.follow}})
     }
-    return [];
+    return [];*/
 });

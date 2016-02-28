@@ -18,7 +18,7 @@ App.icons({
 });
 
 App.launchScreens({
-    'iphone6': 'splash/splash2.png',
+    'iphone': 'splash/splash2.png',
   // ... more screen sizes and platforms ...
     'android_hdpi_portrait': 'splash/splash_android.png',
 });

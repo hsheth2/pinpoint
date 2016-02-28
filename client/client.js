@@ -71,6 +71,12 @@ Template.follow.events({
     }
 });
 
+Template.navbar.events({
+    'click .nav a': function(e) {
+        $('.navbar-toggle').click();
+    }
+});
+
 Template.index.helpers({
     'numNearby': function() {
         return Meteor.users.find({}).count() - 1;
