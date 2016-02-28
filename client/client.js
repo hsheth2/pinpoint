@@ -2,16 +2,21 @@ setInterval(function() {
     if (Meteor.user()) {
         navigator.geolocation.getCurrentPosition(
             function(pos) {
-                var p = {latitude: pos.coords.latitude, longitude: pos.coords.longitude};
-                                console.log(p);
+                var p = {
+                    latitude: pos.coords.latitude,
+                    longitude: pos.coords.longitude
+                };
+                console.log(p);
                 //console.log("updating pos: " + p.latitude + "," + p.longitude);
                 Session.set('pos', p);
-                Meteor.call('updatePos', {lat:p.latitude, lng: p.longitude});
+                Meteor.call('updatePos', {
+                    lat: p.latitude,
+                    lng: p.longitude
+                });
             },
             function() {
-               console.log('Position could not be determined.');
-            },
-            {
+                console.log('Position could not be determined.');
+            }, {
                 enableHighAccuracy: true,
                 timeout: 10000,
                 maximumAge: 0
@@ -21,8 +26,21 @@ setInterval(function() {
 }, 3000);
 
 Template.follow.events({
-    'click #follow-button': function(event) {
+    /*'click #follow-button': function(event) {
         var username = $("#follow-user").val();
+        Meteor.call('follow', username, function(err, result) {
+            if (result) {
+                console.log("followed user!");
+            }
+            else {
+                console.log("sorry no");
+            }
+        });
+    },*/
+    'submit #follow-form': function(e) {
+        e.preventDefault();
+        var username = $("#follow-user").val();
+        console.log("request to follow user: "+username);
         Meteor.call('follow', username, function(err, result) {
             if (result) {
                 console.log("followed user!");
@@ -49,7 +67,7 @@ Template.follow.events({
 
 Template.index.helpers({
     'numNearby': function() {
-        return Meteor.users.find({}).count()-1;
+        return Meteor.users.find({}).count() - 1;
     }
 });
 
@@ -57,7 +75,7 @@ Template.list.helpers({
     'inRange': function() {
         if (Meteor.user() && Meteor.user().profile.lastPos && Meteor.user().profile.follow) {
             var myPos = Session.get('pos');
-            if(myPos) {
+            if (myPos) {
                 var users = Meteor.users.find({
                     _id: {
                         $ne: Meteor.userId()
@@ -70,8 +88,8 @@ Template.list.helpers({
                     };
                     u.distTo = geolib.getDistance(myPos, fixedLoc, 1, 8);
                 });
-                users.sort(function(a,b) {
-                    return a.distTo-b.distTo;
+                users.sort(function(a, b) {
+                    return a.distTo - b.distTo;
                 });
                 return users;
             }
@@ -101,27 +119,27 @@ Template.list.helpers({
                 longitude: pos.lng
             };
             var dist = geolib.getDistance(myPos, fixedLoc, 1, 8);
-            
-            if(dist<15) return '<p class="text-success">Very close! (<15m)</p>';
-            if(dist>=15 && dist<50) return '<p class="text-warning">Somewhat close... (~'+ (5*Math.round(dist/5))+'m)</p>';
-            else return '<p class="text-danger">Far away (~'+ (5*Math.round(dist/5))+'m)</p>';
+
+            if (dist < 15) return '<p class="text-success">Very close! (<15m)</p>';
+            if (dist >= 15 && dist < 50) return '<p class="text-warning">Somewhat close... (~' + (5 * Math.round(dist / 5)) + 'm)</p>';
+            else return '<p class="text-danger">Far away (~' + (5 * Math.round(dist / 5)) + 'm)</p>';
         }
     },
     'cleanCoord': function(coord) {
-        if(coord)
-        return coord.toFixed(6);
+        if (coord)
+            return coord.toFixed(6);
     },
     'latPos': function() {
         var pos = Session.get('pos');
-        if(pos) return pos.latitude;
+        if (pos) return pos.latitude;
     },
     'lngPos': function() {
         var pos = Session.get('pos');
-        if(pos) return pos.longitude;
+        if (pos) return pos.longitude;
     }
 });
 if (Meteor.isCordova) {
-    Template.arrow.onCreated(function() {
+    Template.list.onCreated(function() {
         var watchID = navigator.compass.watchHeading(compassSuccess, compassError, {
             frequency: 20
         });
@@ -130,17 +148,20 @@ if (Meteor.isCordova) {
 
     function compassSuccess(heading) {
         console.log("angle: " + heading.magneticHeading);
-        Session.set("angle", heading.magneticHeading);
-        // Session.set("logs", Session.get("logs") + " succeeded with angle=" + heading.magneticHeading);
+        Template.instance().angle.set(heading.magneticHeading);
     };
 
     Template.arrow.helpers({
         angle: function() {
-            return Session.get("angle");
+            return Template.instance().angle.get();
         },
-        
+
         logs: function() {
-            return Session.get("logs");
+            // return Session.get("logs");
+        },
+
+        angleArrow: function() {
+            return Template.instance().angle.get();
         }
     });
 
@@ -148,22 +169,52 @@ if (Meteor.isCordova) {
         // Session.set("logs", Session.get("logs") + error.code);
     };
 
-    Template.arrow.onDestroyed(function() {
+    Template.list.onDestroyed(function() {
         navigator.compass.clearWatch(Session.get("compassWatcher"));
     });
 }
 
-Template.applicationLayout.onCreated(function(){
+Template.applicationLayout.onCreated(function() {
     var title = $("#title").text();
-    if (title) {
-        $("#page-title").text(title)
-    }
+    console.log("Title is " + title);
+    $("#page-title").text(title);
 });
 
 Meteor.startup(function() {
-   if(Meteor.isCordova) {
+    if (Meteor.isCordova) {
         Session.set("logs", "isCord");
-   }  else {
-       Session.set("logs", "isNotCordova");
-   }
+    }
+    else {
+        Session.set("logs", "isNotCordova");
+    }
 });
+
+function bearing(lat1, lng1, lat2, lng2) {
+    var dLon = (lng2 - lng1);
+    var y = Math.sin(dLon) * Math.cos(lat2);
+    var x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
+    var brng = this._toDeg(Math.atan2(y, x));
+    return 360 - ((brng + 360) % 360);
+}
+
+/**
+ * Since not all browsers implement this we have our own utility that will
+ * convert from degrees into radians
+ *
+ * @param deg - The degrees to be converted into radians
+ * @return radians
+ */
+function _toRad(deg) {
+    return deg * Math.PI / 180;
+}
+
+/**
+ * Since not all browsers implement this we have our own utility that will
+ * convert from radians into degrees
+ *
+ * @param rad - The radians to be converted into degrees
+ * @return degrees
+ */
+function _toDeg(rad) {
+    return rad * 180 / Math.PI;
+}

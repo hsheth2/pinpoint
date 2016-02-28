@@ -25,7 +25,7 @@
                     </thead>
                     <tbody>
                         {{#each inRange}}
-                            <tr>
+                            <tr style="font-size: 14px; ">
                                 <td class="col-xs-4">{{username}}</td>
                                 <td class="col-xs-4">{{{friendlyDist profile.lastPos}}}</td>
                                 <td class="col-xs-4">{{livestamp profile.lastPos.time}}</td>
@@ -34,7 +34,7 @@
                     </tbody>
                 </table>
             {{else}}
-                <p>Noone is currently in your range!</p>
+                <p>Nobody is currently in your range!</p>
             {{/if}}
         {{else}}
             You are not following anyone!
