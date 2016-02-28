@@ -16,7 +16,7 @@ Meteor.methods({
       }
       return false;
     },
-    
+
     follow: function(name) {
         if(Meteor.user()) {
             var target = Meteor.users.findOne({"username": name});
