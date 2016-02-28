@@ -167,8 +167,8 @@ if (Meteor.isCordova) {
 
         angleArrow: function() {
             //Template.instance().data.lastPos;
-            var bearing = (Session.get(pos).latitude, Session.get(pos).longitude, Template.instance().data.lat, Template.instance().data.lng);
-            return -1*bearing;
+            var b = bearing(Session.get('pos').latitude, Session.get('pos').longitude, Template.instance().data.lat, Template.instance().data.lng);
+            return -1*b;
         }
     });
 
