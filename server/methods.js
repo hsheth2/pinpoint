@@ -18,6 +18,7 @@ Meteor.methods({
     },
 
     follow: function(name) {
+        console.log("calling follow with name="+name);
         if(Meteor.user()) {
             var target = Meteor.users.findOne({"username": name});
             if(target) {

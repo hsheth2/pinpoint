@@ -42,6 +42,7 @@ Template.follow.events({
         var username = $("#follow-user").val();
         console.log("request to follow user: "+username);
         Meteor.call('follow', username, function(err, result) {
+            if(err)console.log(err);
             if (result) {
                 console.log("followed user!");
             }
@@ -181,11 +182,11 @@ if (Meteor.isCordova) {
     });
 }
 
-Template.applicationLayout.autorun(function() {
+function setPageTitle() {
     var title = $("#title").text();
     console.log("Title is " + title);
     $("#page-title").text(title);
-});
+};
 
 Meteor.startup(function() {
     if (Meteor.isCordova) {
