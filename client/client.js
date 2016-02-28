@@ -177,7 +177,7 @@ if (Meteor.isCordova) {
         },
 
         logs: function() {
-            return Session.get('pos').latitude + " " + Session.get('pos').longitude + " " + Template.currentData().lastPos.lat + " " + Template.currentData().lastPos.lng;
+            return Session.get('angle') - Session.get('pos').latitude + " " + Session.get('pos').longitude + " " + Template.currentData().lastPos.lat + " " + Template.currentData().lastPos.lng;
         },
 
         angleArrow: function() {
