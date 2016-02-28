@@ -131,7 +131,7 @@ if (Meteor.isCordova) {
     function compassSuccess(heading) {
         console.log("angle: " + heading.magneticHeading);
         Session.set("angle", heading.magneticHeading);
-        Session.set("logs", Session.get("logs") + " succeeded with angle=" + heading.magneticHeading);
+        // Session.set("logs", Session.get("logs") + " succeeded with angle=" + heading.magneticHeading);
     };
 
     Template.arrow.helpers({
@@ -145,7 +145,7 @@ if (Meteor.isCordova) {
     });
 
     function compassError(error) {
-        Session.set("logs", Session.get("logs") + error.code);
+        // Session.set("logs", Session.get("logs") + error.code);
     };
 
     Template.arrow.onDestroyed(function() {
