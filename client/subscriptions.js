@@ -1,3 +1,1 @@
-Meteor._reload.onMigrate(function() {
-    return [false];
-});
+Meteor.subscribe('inRange');

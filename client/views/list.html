@@ -1,0 +1,17 @@
+<template name="list">
+    
+    {{#if currentUser}}
+        {{#if currentUser.profile.follow}}
+            <ul>
+            {{#each inRange}}
+                {{printContext}}
+                <li>{{username}} - {{profile.lastPos.lat}},{{profile.lastPos.lng}} - {{distTo profile.lastPos}}</li>
+            {{else}}
+                Noone is in your range!
+            {{/each}}
+            </ul>
+        {{else}}
+            You are not following anyone!
+        {{/if}}
+    {{/if}}
+</template>
