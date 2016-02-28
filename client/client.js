@@ -117,7 +117,7 @@ if (Meteor.isCordova) {
     function compassSuccess(heading) {
         console.log("angle: " + heading.trueHeading);
         Session.set("angle", heading.trueHeading);
-        Session.set("logs", Session.get("logs") + " succeeded ");
+        Session.set("logs", Session.get("logs") + " succeeded with angle=" + heading.trueHeading);
     };
 
     Template.arrow.helpers({
