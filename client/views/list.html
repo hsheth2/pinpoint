@@ -1,11 +1,11 @@
 <template name="list">
-    
+    <b>Your Position:</b> ({{cleanCoord latPos}}, {{cleanCoord lngPos}})
     {{#if currentUser}}
         {{#if currentUser.profile.follow}}
             <ul>
             {{#each inRange}}
                 {{printContext}}
-                <li>{{username}} - {{profile.lastPos.lat}},{{profile.lastPos.lng}} - {{distTo profile.lastPos}}</li>
+                <li>{{username}} - {{distTo profile.lastPos}}m away ({{cleanCoord profile.lastPos.lat}},{{cleanCoord profile.lastPos.lng}})</li>
             {{else}}
                 Noone is in your range!
             {{/each}}

@@ -22,9 +22,10 @@
   </nav>
   
   <script>
+    console.log("here")
     $("li").each(function (index) {
-      console.log(this.attr("id"));
-      if (this.attr("id") == document.location.href.match(/[^\/]+$/)[0]){
+      console.log(this.getAttribute("id"));
+      if (this.getAttribute("id") == document.location.href.match(/[^\/]+$/)[0]){
         this.className = "active";
       }      
     });

@@ -74,6 +74,15 @@ Template.list.helpers({
             };
             return geolib.getDistance(myFixedLoc, fixedLoc);
         }
+    },
+    'cleanCoord': function(coord) {
+        return coord.toFixed(4);
+    },
+    'latPos': function() {
+        return Geolocation.latLng().lat;
+    },
+    'lngPos': function() {
+        return Geolocation.latLng().lng;
     }
 });
 if (Meteor.isCordova) {
@@ -88,7 +97,7 @@ if (Meteor.isCordova) {
         Session.set("angle", heading.trueHeading)
     };
 
-    Template.myTemplate.helpers({
+    Template.arrow.helpers({
         angle: function() {
             return Session.get("angle");
         }
