@@ -45,9 +45,9 @@ Template.follow.events({
     'submit #follow-form': function(e) {
         e.preventDefault();
         var username = $("#follow-user").val();
-        console.log("request to follow user: "+username);
+        console.log("request to follow user: " + username);
         Meteor.call('follow', username, function(err, result) {
-            if(err)console.log(err);
+            if (err) console.log(err);
             if (result) {
                 console.log("followed user!");
             }
@@ -155,7 +155,7 @@ if (Meteor.isCordova) {
         });
         Session.set("compassWatcher", watchID);
     });
-    
+
     Template.arrow.onCreated(function() {
         Template.instance().angle = new ReactiveVar(0);
     });
@@ -171,13 +171,42 @@ if (Meteor.isCordova) {
         },
 
         logs: function() {
-            return Session.get('pos').latitude + " " +  Session.get('pos').longitude + " " + Template.currentData().lastPos.lat + " " + Template.currentData().lastPos.lng;
+            return Session.get('pos').latitude + " " + Session.get('pos').longitude + " " + Template.currentData().lastPos.lat + " " + Template.currentData().lastPos.lng;
         },
 
         angleArrow: function() {
+            function bearing(lat1, lng1, lat2, lng2) {
+                var dLon = (lng2 - lng1);
+                var y = Math.sin(dLon) * Math.cos(lat2);
+                var x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
+                var brng = _toDeg(Math.atan2(y, x));
+                return 360 - ((brng + 360) % 360);
+            }
+
+            /**
+             * Since not all browsers implement this we have our own utility that will
+             * convert from degrees into radians
+             *
+             * @param deg - The degrees to be converted into radians
+             * @return radians
+             */
+            function _toRad(deg) {
+                return deg * Math.PI / 180;
+            }
+
+            /**
+             * Since not all browsers implement this we have our own utility that will
+             * convert from radians into degrees
+             *
+             * @param rad - The radians to be converted into degrees
+             * @return degrees
+             */
+            function _toDeg(rad) {
+                return rad * 180 / Math.PI;
+            }
             //Template.instance().data.lastPos;
             var b = bearing(Session.get('pos').latitude, Session.get('pos').longitude, Template.currentData().lastPos.lat, Template.currentData().lastPos.lng);
-            return -1*b;
+            return -1 * b;
         }
     });
 
@@ -204,33 +233,3 @@ Meteor.startup(function() {
         Session.set("logs", "isNotCordova");
     }
 });
-
-function bearing(lat1, lng1, lat2, lng2) {
-    var dLon = (lng2 - lng1);
-    var y = Math.sin(dLon) * Math.cos(lat2);
-    var x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
-    var brng = this._toDeg(Math.atan2(y, x));
-    return 360 - ((brng + 360) % 360);
-}
-
-/**
- * Since not all browsers implement this we have our own utility that will
- * convert from degrees into radians
- *
- * @param deg - The degrees to be converted into radians
- * @return radians
- */
-function _toRad(deg) {
-    return deg * Math.PI / 180;
-}
-
-/**
- * Since not all browsers implement this we have our own utility that will
- * convert from radians into degrees
- *
- * @param rad - The radians to be converted into degrees
- * @return degrees
- */
-function _toDeg(rad) {
-    return rad * 180 / Math.PI;
-}

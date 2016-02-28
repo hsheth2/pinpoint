@@ -1,6 +1,7 @@
 Meteor.publish("inRange", function() {
     if(!this.userId) return [];
     var user = Meteor.users.findOne(this.userId);
+    
     console.log("inRange for:"+user.username);
     if(user && user.profile.follow) {
         var myLoc = user.profile.lastPos;
