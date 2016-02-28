@@ -4,31 +4,31 @@
     <b>Your Position:</b> ({{cleanCoord latPos}}, {{cleanCoord lngPos}})
     {{#if currentUser}}
         {{#if currentUser.profile.follow}}
-            <ul>
+            <!--<ul>
             {{#each inRange}}
                 {{printContext}}
                 <li>{{username}} - {{distTo profile.lastPos}}m away ({{cleanCoord profile.lastPos.lat}},{{cleanCoord profile.lastPos.lng}}) - As of {{livestamp profile.lastPos.time}}</li>
             {{else}}
                 Noone is in your range!
             {{/each}}
-            </ul>
+            </ul>-->
             
             
             {{#if inRange}}
                 <table class="table table-striped">
                     <thead> 
                         <tr> 
-                            <th>Username</th>
-                            <th>Distance</th>
-                            <th>Last Updated</th>
+                            <th class="col-xs-4">Username</th>
+                            <th class="col-xs-4">Distance</th>
+                            <th class="col-xs-4">Last Updated</th>
                         </tr>
                     </thead>
                     <tbody>
                         {{#each inRange}}
                             <tr>
-                                <td>{{username}}</td>
-                                <td>{{{friendlyDist profile.lastPos}}}</td>
-                                <td>{{livestamp profile.lastPos.time}}</td>
+                                <td class="col-xs-4">{{username}}</td>
+                                <td class="col-xs-4">{{{friendlyDist profile.lastPos}}}</td>
+                                <td class="col-xs-4">{{livestamp profile.lastPos.time}}</td>
                             </tr>
                         {{/each}}
                     </tbody>

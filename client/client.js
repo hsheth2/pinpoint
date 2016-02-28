@@ -88,9 +88,9 @@ Template.list.helpers({
             };
             var dist = geolib.getDistance(myPos, fixedLoc, 1, 8);
             
-            if(dist<15) return '<p class="text-success">Very close!</p>';
-            if(dist>=15 && dist<50) return '<p class="text-warning">Somewhat close...</p>';
-            else return '<p class="text-danger">Far away</p>';
+            if(dist<15) return '<p class="text-success">Very close! (<15m)</p>';
+            if(dist>=15 && dist<50) return '<p class="text-warning">Somewhat close... (~'+ (5*Math.round(dist/5))+'m)</p>';
+            else return '<p class="text-danger">Far away (~'+ (5*Math.round(dist/5))+'m)</p>';
         }
     },
     'cleanCoord': function(coord) {
@@ -117,6 +117,7 @@ if (Meteor.isCordova) {
     function compassSuccess(heading) {
         console.log("angle: " + heading.trueHeading);
         Session.set("angle", heading.trueHeading);
+        Session.set("logs", Session.get("logs") + " succeeded ");
     };
 
     Template.arrow.helpers({
@@ -130,7 +131,7 @@ if (Meteor.isCordova) {
     });
 
     function compassError(error) {
-        Session.set("logs", Session.get("logs"));
+        Session.set("logs", Session.get("logs") + error.code);
     };
 
     Template.arrow.onDestroyed(function() {
