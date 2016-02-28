@@ -171,12 +171,12 @@ if (Meteor.isCordova) {
         },
 
         logs: function() {
-            return Session.get('pos').latitude + " " +  Session.get('pos').longitude + " " + Template.instance().data.lat + " " + Template.instance().data.lng;
+            return Session.get('pos').latitude + " " +  Session.get('pos').longitude + " " + Template.currentData().lastPos.lat + " " + Template.currentData().lastPos.lng;
         },
 
         angleArrow: function() {
             //Template.instance().data.lastPos;
-            var b = bearing(Session.get('pos').latitude, Session.get('pos').longitude, Template.instance().data.lat, Template.instance().data.lng);
+            var b = bearing(Session.get('pos').latitude, Session.get('pos').longitude, Template.currentData().lastPos.lat, Template.currentData().lastPos.lng);
             return -1*b;
         }
     });
