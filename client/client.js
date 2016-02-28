@@ -46,6 +46,11 @@ Template.follow.events({
     }
 });
 
+Template.index.helpers({
+    'numNearby': function() {
+        return Meteor.users.find({}).count()-1;
+    }
+});
 
 Template.list.helpers({
     'inRange': function() {
@@ -72,17 +77,20 @@ Template.list.helpers({
                 latitude: pos.lat,
                 longitude: pos.lng
             };
-            return geolib.getDistance(myFixedLoc, fixedLoc);
+            return geolib.getDistance(myFixedLoc, fixedLoc, 1, 8);
         }
     },
     'cleanCoord': function(coord) {
-        return coord.toFixed(4);
+        if(coord)
+        return coord.toFixed(6);
     },
     'latPos': function() {
-        return Geolocation.latLng().lat;
+        var pos = Geolocation.latLng();
+        if(pos) return pos.lat;
     },
     'lngPos': function() {
-        return Geolocation.latLng().lng;
+        var pos = Geolocation.latLng();
+        if(pos) return pos.lng;
     }
 });
 if (Meteor.isCordova) {
@@ -111,3 +119,7 @@ if (Meteor.isCordova) {
         navigator.compass.clearWatch(Session.get("compassWatcher"));
     });
 }
+
+Template.applicationLayout.onCreated(function(){
+    $("#page-title").text($("#title").val())
+});

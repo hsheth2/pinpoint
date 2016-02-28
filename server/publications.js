@@ -11,8 +11,8 @@ Meteor.publish("inRange", function() {
         return Meteor.users.find({_id: {$in: user.profile.follow}, $where: function() {
             var lastLoc = this.profile.lastPos;
             var fixedLoc = {latitude: lastLoc.lat, longitude: lastLoc.lng};
-            var distance = geolib.getDistance(myFixedLoc, fixedLoc);
-            return distance < 15;
+            var distance = geolib.getDistance(myFixedLoc, fixedLoc, 1, 8);
+            return distance < 50;
         }}, {fields: {'username': 1, 'profile.lastPos': 1}  });
     }
     return [];
