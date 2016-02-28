@@ -145,6 +145,10 @@ if (Meteor.isCordova) {
         });
         Session.set("compassWatcher", watchID);
     });
+    
+    Template.arrow.onCreated(function() {
+        Template.instance().angle = new ReactiveVar(0);
+    });
 
     function compassSuccess(heading) {
         console.log("angle: " + heading.magneticHeading);
