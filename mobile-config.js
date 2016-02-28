@@ -10,13 +10,14 @@ App.info({
 });
 
 // Set up resources such as icons and launch screens.
-/*App.icons({
-  'iphone': 'icons/icon-60.png',
-  'iphone_2x': 'icons/icon-60@2x.png',
+App.icons({
+  'iphone': 'icons/Icon.png',
+  'iphone_2x': 'icons/Icon-60@2x.png',
   // ... more screen sizes and platforms ...
+  'android_xhdpi': 'icons/xhdpi.png'
 });
 
-App.launchScreens({
+/*App.launchScreens({
   'iphone': 'splash/Default~iphone.png',
   'iphone_2x': 'splash/Default@2x~iphone.png',
   // ... more screen sizes and platforms ...

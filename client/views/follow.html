@@ -1,9 +1,15 @@
 <template name="follow">
   <title id="title" class="sr-only">Follow</title>
-  
+
   <p>Enter the username of a friend:</p>
   <!--<form action="" class="form-inline">-->
-    <input type="text" name="followuser" id="follow-user" placeholder="User Name">
-    <button type="submit" value="Follow" id="follow-button" class="btn btn-primary" disabled="true">Add</button>
+  <div class="input-group">
+    <input type="text" class="form-control" name="followuser" id="follow-user" placeholder="User Name">
+    <span class="input-group-btn">
+        <!--<button class="btn btn-default" type="button">Go!</button>-->
+    <button type="button" value="Follow" id="follow-button" class="btn btn-primary" disabled="true">Go</button>
+      </span>
+  </div>
+  <!-- /input-group -->
   <!--</form>-->
 </template>

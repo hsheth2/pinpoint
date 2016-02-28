@@ -56,11 +56,25 @@ Template.index.helpers({
 Template.list.helpers({
     'inRange': function() {
         if (Meteor.user() && Meteor.user().profile.lastPos && Meteor.user().profile.follow) {
-            return Meteor.users.find({
-                _id: {
-                    $ne: Meteor.userId()
-                }
-            });
+            var myPos = Session.get('pos');
+            if(myPos) {
+                var users = Meteor.users.find({
+                    _id: {
+                        $ne: Meteor.userId()
+                    }
+                }).fetch();
+                users.forEach(function(u) {
+                    var fixedLoc = {
+                        latitude: u.profile.lastPos.lat,
+                        longitude: u.profile.lastPos.lng
+                    };
+                    u.distTo = geolib.getDistance(myPos, fixedLoc, 1, 8);
+                });
+                users.sort(function(a,b) {
+                    return a.distTo-b.distTo;
+                });
+                return users;
+            }
         }
         return null;
     },
@@ -115,9 +129,9 @@ if (Meteor.isCordova) {
     });
 
     function compassSuccess(heading) {
-        console.log("angle: " + heading.trueHeading);
-        Session.set("angle", heading.trueHeading);
-        Session.set("logs", Session.get("logs") + " succeeded with angle=" + heading.trueHeading);
+        console.log("angle: " + heading.magneticHeading);
+        Session.set("angle", heading.magneticHeading);
+        Session.set("logs", Session.get("logs") + " succeeded with angle=" + heading.magneticHeading);
     };
 
     Template.arrow.helpers({
