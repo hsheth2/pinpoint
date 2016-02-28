@@ -1,4 +1,6 @@
 <template name="list">
+    <title id="title" class="sr-only">Nearby</title>
+    
     <b>Your Position:</b> ({{cleanCoord latPos}}, {{cleanCoord lngPos}})
     {{#if currentUser}}
         {{#if currentUser.profile.follow}}
@@ -10,6 +12,30 @@
                 Noone is in your range!
             {{/each}}
             </ul>
+            
+            
+            {{#if inRange}}
+                <table class="table table-striped">
+                    <thead> 
+                        <tr> 
+                            <th>Username</th>
+                            <th>Distance</th>
+                            <th>Last Updated</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each inRange}}
+                            <tr>
+                                <td>{{username}}</td>
+                                <td>{{{friendlyDist profile.lastPos}}}</td>
+                                <td>{{livestamp profile.lastPos.time}}</td>
+                            </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            {{else}}
+                <p>Noone is currently in your range!</p>
+            {{/if}}
         {{else}}
             You are not following anyone!
         {{/if}}

@@ -1,16 +1,5 @@
 setInterval(function() {
     if (Meteor.user()) {
-        /*var pos = Geolocation.latLng();
-
-        if (pos) {
-            if (pos.lng !== lastPos.lng || pos.lat !== lastPos.lat) {
-                
-            }
-        }
-        else {
-            console.log("ERR-POSITION IS NULL");
-        }*/
-        
         navigator.geolocation.getCurrentPosition(
             function(pos) {
                 var p = {latitude: pos.coords.latitude, longitude: pos.coords.longitude};
@@ -90,6 +79,20 @@ Template.list.helpers({
             return geolib.getDistance(myPos, fixedLoc, 1, 8);
         }
     },
+    'friendlyDist': function(pos) {
+        var myPos = Session.get('pos');
+        if (myPos) {
+            var fixedLoc = {
+                latitude: pos.lat,
+                longitude: pos.lng
+            };
+            var dist = geolib.getDistance(myPos, fixedLoc, 1, 8);
+            
+            if(dist<15) return '<p class="text-success">Very close!</p>';
+            if(dist>=15 && dist<50) return '<p class="text-warning">Somewhat close...</p>';
+            else return '<p class="text-danger">Far away</p>';
+        }
+    },
     'cleanCoord': function(coord) {
         if(coord)
         return coord.toFixed(6);
@@ -119,11 +122,15 @@ if (Meteor.isCordova) {
     Template.arrow.helpers({
         angle: function() {
             return Session.get("angle");
+        },
+        
+        logs: function() {
+            return Session.get("logs");
         }
     });
 
     function compassError(error) {
-        console.log('compass error ' + error.code);
+        Session.set("logs", Session.get("logs"));
     };
 
     Template.arrow.onDestroyed(function() {
@@ -136,4 +143,12 @@ Template.applicationLayout.onCreated(function(){
     if (title) {
         $("#page-title").text(title)
     }
+});
+
+Meteor.startup(function() {
+   if(Meteor.isCordova) {
+        Session.set("logs", "isCord");
+   }  else {
+       Session.set("logs", "isNotCordova");
+   }
 });
