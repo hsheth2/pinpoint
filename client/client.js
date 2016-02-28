@@ -152,12 +152,12 @@ if (Meteor.isCordova) {
 
     function compassSuccess(heading) {
         console.log("angle: " + heading.magneticHeading);
-        Template.instance().angle.set(heading.magneticHeading);
+        Session.set("angle", heading.magneticHeading);
     };
 
     Template.arrow.helpers({
         angle: function() {
-            return Template.instance().angle.get();
+            return Session.get("angle");
         },
 
         logs: function() {
@@ -165,7 +165,7 @@ if (Meteor.isCordova) {
         },
 
         angleArrow: function() {
-            return Template.instance().angle.get();
+            return Session.get("angle");
         }
     });
 
