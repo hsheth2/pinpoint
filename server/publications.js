@@ -16,7 +16,7 @@ Meteor.publish("inRange", function() {
             return distance < 50;
         }}, {fields: {'username': 1, 'profile.lastPos': 1}  });*/
         
-        return Meteor.users.find({_id: {$in: user.profile.follow}});
+        return Meteor.users.find({_id: {$in: user.profile.follow}})
     }
     return [];
 });

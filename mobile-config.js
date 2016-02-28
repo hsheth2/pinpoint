@@ -17,13 +17,13 @@ App.icons({
   'android_xhdpi': 'icons/xhdpi.png'
 });
 
-/*App.launchScreens({
-  'iphone': 'splash/Default~iphone.png',
-  'iphone_2x': 'splash/Default@2x~iphone.png',
+App.launchScreens({
+    'iphone6': 'splash/splash2.png',
   // ... more screen sizes and platforms ...
+    'android_hdpi_portrait': 'splash/splash_android.png',
 });
 
-// Set PhoneGap/Cordova preferences
+/*// Set PhoneGap/Cordova preferences
 App.setPreference('BackgroundColor', '0xff0000ff');
 App.setPreference('HideKeyboardFormAccessoryBar', true);
 App.setPreference('Orientation', 'default');
