@@ -6,7 +6,7 @@ setInterval(function() {
                     latitude: pos.coords.latitude,
                     longitude: pos.coords.longitude
                 };
-                console.log(p);
+                //console.log(p);
                 //console.log("updating pos: " + p.latitude + "," + p.longitude);
                 Session.set('pos', p);
                 Meteor.call('updatePos', {
@@ -138,6 +138,7 @@ Template.list.helpers({
         if (pos) return pos.longitude;
     }
 });
+
 if (Meteor.isCordova) {
     Template.list.onCreated(function() {
         var watchID = navigator.compass.watchHeading(compassSuccess, compassError, {
@@ -165,7 +166,9 @@ if (Meteor.isCordova) {
         },
 
         angleArrow: function() {
-            return Session.get("angle");
+            //Template.instance().data.lastPos;
+            var bearing = (Session.get(pos).latitude, Session.get(pos).longitude, Template.instance().data.lat, Template.instance().data.lng);
+            return -1*bearing;
         }
     });
 
@@ -178,7 +181,7 @@ if (Meteor.isCordova) {
     });
 }
 
-Template.applicationLayout.onCreated(function() {
+Template.applicationLayout.autorun(function() {
     var title = $("#title").text();
     console.log("Title is " + title);
     $("#page-title").text(title);
