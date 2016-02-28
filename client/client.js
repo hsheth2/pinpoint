@@ -179,7 +179,7 @@ if (Meteor.isCordova) {
 }
 
 Template.applicationLayout.onCreated(function() {
-    var title = $("#title").text();
+    var title = $("#title").html();
     console.log("Title is " + title);
     $("#page-title").text(title);
 });
