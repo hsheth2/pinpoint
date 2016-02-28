@@ -1,21 +1,33 @@
-var lastPos = {
-    lng: 0,
-    lat: 0
-};
-
 setInterval(function() {
     if (Meteor.user()) {
-        var pos = Geolocation.latLng();
+        /*var pos = Geolocation.latLng();
 
         if (pos) {
             if (pos.lng !== lastPos.lng || pos.lat !== lastPos.lat) {
-                console.log("updating pos: " + pos.lat + "," + pos.lng);
-                Meteor.call('updatePos', pos);
+                
             }
         }
         else {
             console.log("ERR-POSITION IS NULL");
-        }
+        }*/
+        
+        navigator.geolocation.getCurrentPosition(
+            function(pos) {
+                var p = {latitude: pos.coords.latitude, longitude: pos.coords.longitude};
+                                console.log(p);
+                //console.log("updating pos: " + p.latitude + "," + p.longitude);
+                Session.set('pos', p);
+                Meteor.call('updatePos', {lat:p.latitude, lng: p.longitude});
+            },
+            function() {
+               console.log('Position could not be determined.');
+            },
+            {
+                enableHighAccuracy: true,
+                timeout: 10000,
+                maximumAge: 0
+            }
+        );
     }
 }, 3000);
 
@@ -64,20 +76,18 @@ Template.list.helpers({
         return null;
     },
     'printContext': function() {
-        console.log(this);
+        //console.log(this);
     },
     'distTo': function(pos) {
-        var myPos = Geolocation.latLng();
+        var myPos = Session.get('pos');
         if (myPos) {
-            var myFixedLoc = {
-                latitude: myPos.lat,
-                longitude: myPos.lng
-            };
             var fixedLoc = {
                 latitude: pos.lat,
                 longitude: pos.lng
             };
-            return geolib.getDistance(myFixedLoc, fixedLoc, 1, 8);
+            //console.log(fixedLoc);
+            //console.log(myPos);
+            return geolib.getDistance(myPos, fixedLoc, 1, 8);
         }
     },
     'cleanCoord': function(coord) {
@@ -85,12 +95,12 @@ Template.list.helpers({
         return coord.toFixed(6);
     },
     'latPos': function() {
-        var pos = Geolocation.latLng();
-        if(pos) return pos.lat;
+        var pos = Session.get('pos');
+        if(pos) return pos.latitude;
     },
     'lngPos': function() {
-        var pos = Geolocation.latLng();
-        if(pos) return pos.lng;
+        var pos = Session.get('pos');
+        if(pos) return pos.longitude;
     }
 });
 if (Meteor.isCordova) {
@@ -102,7 +112,8 @@ if (Meteor.isCordova) {
     });
 
     function compassSuccess(heading) {
-        Session.set("angle", heading.trueHeading)
+        console.log("angle: " + heading.trueHeading);
+        Session.set("angle", heading.trueHeading);
     };
 
     Template.arrow.helpers({

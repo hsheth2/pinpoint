@@ -13,9 +13,9 @@
       </div>
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
-          <li id="index"><a href="/">Home</a></li>
-          <li id="list"><a href="/list">List</a></li>
-          <li id="follow"><a href="/follow">Follow</a></li>
+          <li id="index" class="{{#if isActivePath '/'}}active{{/if}}"><a href="/">Home</a></li>
+          <li id="list" class="{{#if isActivePath '/list'}}active{{/if}}"><a href="/list">List</a></li>
+          <li id="follow" class="{{#if isActivePath '/follow'}}active{{/if}}"><a href="/follow">Follow</a></li>
         </ul>
       </div><!--/.nav-collapse -->
     </div>
