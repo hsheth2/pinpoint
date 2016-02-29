@@ -126,6 +126,21 @@ Template.list.helpers({
             return geolib.getDistance(myPos, fixedLoc, 1, 8);
         }
     },
+    'shouldDisp': function(pos) {
+        var myPos = Session.get('pos');
+        if (myPos) {
+            var fixedLoc = {
+                latitude: pos.lat,
+                longitude: pos.lng
+            };
+            //console.log(fixedLoc);
+            //console.log(myPos);
+            var dist = geolib.getDistance(myPos, fixedLoc, 1, 8);
+            
+            return dist>=15;
+        }
+        return false;
+    },
     'friendlyDist': function(pos) {
         var myPos = Session.get('pos');
         if (myPos) {
@@ -201,7 +216,7 @@ if (Meteor.isCordova) {
             }
 
             /**
-             * Since not all browsers implement this we have our own utility that will
+             * Since not all browsers implement this we have our own utility that wi ll
              * convert from radians into degrees
              *
              * @param rad - The radians to be converted into degrees
