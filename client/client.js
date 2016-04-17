@@ -72,17 +72,12 @@ Template.follow.events({
     }
 });
 
-Template.navbar.events({
-    'click .nav a': function(e) {
-        $('.navbar-toggle').click();
-    }
-});
-
 Template.index.helpers({
     'numNearby': function() {
         return Meteor.users.find({}).count() - 1;
     },
     'numFriends': function() {
+        if (!Meteor.user()) return 0;
         return Meteor.user().profile.follow.length;
     }
 });
@@ -174,6 +169,12 @@ Template.list.helpers({
 });
 
 if (Meteor.isCordova) {
+    Template.navbar.events({
+        'click .nav a': function(e) {
+            $('.navbar-toggle').click();
+        }
+    });
+
     Template.list.onCreated(function() {
         var watchID = navigator.compass.watchHeading(compassSuccess, compassError, {
             frequency: 20
@@ -236,8 +237,8 @@ if (Meteor.isCordova) {
             var place = Session.get('pos');
             var bear = -bearing(place.latitude, place.longitude, Template.currentData().lastPos.lat, Template.currentData().lastPos.lng);
             Session.set('logs', angle + " bear: " + bear);
-            var b = angle - bear;
-            return -1 * b;
+            var b = bear - angle;
+            return b;
         }
     });
 
@@ -252,8 +253,6 @@ if (Meteor.isCordova) {
 else {
     Template.arrow.helpers({
         angleArrow: function() {
-            console.log("start of angleArrow helper");
-
             function bearing(lat1, lng1, lat2, lng2) {
                 var dLon = (lng2 - lng1);
                 var y = Math.sin(dLon) * Math.cos(lat2);
