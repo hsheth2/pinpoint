@@ -233,9 +233,9 @@ if (Meteor.isCordova) {
             //Template.instance().data.lastPos;
             var angle = Session.get('angle');
             var place = Session.get('pos');
-            var bear = bearing(place.latitude, place.longitude, Template.currentData().lastPos.lat, Template.currentData().lastPos.lng);
+            var bear = - bearing(place.latitude, place.longitude, Template.currentData().lastPos.lat, Template.currentData().lastPos.lng);
             Session.set('logs', angle + " bear: " + bear);
-            var b = angle + bear;
+            var b = angle-bear;
             return -1 * b;
         }
     });
