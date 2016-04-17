@@ -226,14 +226,18 @@ if (Meteor.isCordova) {
                 return rad * 180 / Math.PI;
             }
             //Template.instance().data.lastPos;
-            var b = Session.get('angle') - bearing(Session.get('pos').latitude, Session.get('pos').longitude, Template.currentData().lastPos.lat, Template.currentData().lastPos.lng);
+            var angle = Session.get('angle');
+            var place = Session.get('pos');
+            var bear = bearing(place.latitude, place.longitude, Template.currentData().lastPos.lat, Template.currentData().lastPos.lng);
+            console.log(angle + " bear: " + bear);
+            var b = angle - bear;
             return -1 * b;
         }
     });
 
     function compassError(error) {
         // Session.set("logs", Session.get("logs") + error.code);
-    };
+    }
 
     Template.list.onDestroyed(function() {
         navigator.compass.clearWatch(Session.get("compassWatcher"));
