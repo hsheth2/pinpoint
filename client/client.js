@@ -137,8 +137,8 @@ Template.list.helpers({
             //console.log(fixedLoc);
             //console.log(myPos);
             var dist = geolib.getDistance(myPos, fixedLoc, 1, 8);
-            
-            return dist>=15;
+
+            return dist >= 15;
         }
         return false;
     },
@@ -201,6 +201,7 @@ if (Meteor.isCordova) {
 
         angleArrow: function() {
             console.log("start of angleArrow helper");
+
             function bearing(lat1, lng1, lat2, lng2) {
                 var dLon = (lng2 - lng1);
                 var y = Math.sin(dLon) * Math.cos(lat2);
@@ -233,9 +234,9 @@ if (Meteor.isCordova) {
             //Template.instance().data.lastPos;
             var angle = Session.get('angle');
             var place = Session.get('pos');
-            var bear = - bearing(place.latitude, place.longitude, Template.currentData().lastPos.lat, Template.currentData().lastPos.lng);
+            var bear = -bearing(place.latitude, place.longitude, Template.currentData().lastPos.lat, Template.currentData().lastPos.lng);
             Session.set('logs', angle + " bear: " + bear);
-            var b = angle-bear;
+            var b = angle - bear;
             return -1 * b;
         }
     });
@@ -248,8 +249,50 @@ if (Meteor.isCordova) {
         navigator.compass.clearWatch(Session.get("compassWatcher"));
     });
 }
+else {
+    Template.arrow.helpers({
+        angleArrow: function() {
+            console.log("start of angleArrow helper");
 
-var setPageTitle = function setPageTitle() {
+            function bearing(lat1, lng1, lat2, lng2) {
+                var dLon = (lng2 - lng1);
+                var y = Math.sin(dLon) * Math.cos(lat2);
+                var x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
+                var brng = _toDeg(Math.atan2(y, x));
+                return 360 - ((brng + 360) % 360);
+            }
+
+            /**
+             * Since not all browsers implement this we have our own utility that will
+             * convert from degrees into radians
+             *
+             * @param deg - The degrees to be converted into radians
+             * @return radians
+             */
+            function _toRad(deg) {
+                return deg * Math.PI / 180;
+            }
+
+            /**
+             * Since not all browsers implement this we have our own utility that wi ll
+             * convert from radians into degrees
+             *
+             * @param rad - The radians to be converted into degrees
+             * @return degrees
+             */
+            function _toDeg(rad) {
+                return rad * 180 / Math.PI;
+            }
+            //Template.instance().data.lastPos;
+            var place = Session.get('pos');
+            var bear = -bearing(place.latitude, place.longitude, Template.currentData().lastPos.lat, Template.currentData().lastPos.lng);
+            Session.set('logs', "bear: " + bear);
+            return bear;
+        }
+    });
+}
+
+var setPageTitle = function setPageTitle() { // TODO remove this
     var title = $("#title").text();
     console.log("Title is " + title);
     $("#page-title").text(title);
