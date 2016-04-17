@@ -166,6 +166,9 @@ Template.list.helpers({
     'lngPos': function() {
         var pos = Session.get('pos');
         if (pos) return pos.longitude;
+    },
+    'logs': function() {
+        return Session.get('logs');
     }
 });
 
@@ -196,6 +199,7 @@ if (Meteor.isCordova) {
         },
 
         angleArrow: function() {
+            console.log("start of angleArrow helper");
             function bearing(lat1, lng1, lat2, lng2) {
                 var dLon = (lng2 - lng1);
                 var y = Math.sin(dLon) * Math.cos(lat2);
@@ -229,7 +233,7 @@ if (Meteor.isCordova) {
             var angle = Session.get('angle');
             var place = Session.get('pos');
             var bear = bearing(place.latitude, place.longitude, Template.currentData().lastPos.lat, Template.currentData().lastPos.lng);
-            console.log(angle + " bear: " + bear);
+            Session.set('logs', angle + " bear: " + bear);
             var b = angle - bear;
             return -1 * b;
         }
