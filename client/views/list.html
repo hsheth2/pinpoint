@@ -1,6 +1,4 @@
 <template name="list">
-    <title id="title" class="sr-only">Nearby</title>
-    
     <b>Your Position:</b> {{#if latPos}}({{cleanCoord latPos}}, {{cleanCoord lngPos}}){{else}} (loading...) {{/if}}<br>
     {{#if currentUser}}
         {{#if currentUser.profile.follow}}

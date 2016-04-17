@@ -50,6 +50,7 @@ Template.follow.events({
             if (err) console.log(err);
             if (result) {
                 console.log("followed user!");
+                FlowRouter.go('/list')
             }
             else {
                 console.log("sorry no");
@@ -234,7 +235,7 @@ if (Meteor.isCordova) {
             var place = Session.get('pos');
             var bear = bearing(place.latitude, place.longitude, Template.currentData().lastPos.lat, Template.currentData().lastPos.lng);
             Session.set('logs', angle + " bear: " + bear);
-            var b = angle - bear;
+            var b = angle + bear;
             return -1 * b;
         }
     });

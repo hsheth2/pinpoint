@@ -1,7 +1,7 @@
 // This section sets up some basic app metadata,
 // the entire section is optional.
 App.info({
-  id: 'io.pinpoint.pinpoint',
+  id: 'hsheth.pinpoint',
   name: 'pinpoint',
   description: '',
   author: 'author',

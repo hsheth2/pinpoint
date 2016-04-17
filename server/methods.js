@@ -22,7 +22,7 @@ Meteor.methods({
         if(Meteor.user()) {
             var target = Meteor.users.findOne({"username": name});
             if(target) {
-                Meteor.users.update(Meteor.userId(), {$push: {"profile.follow": target._id}});
+                Meteor.users.update(Meteor.userId(), {$addToSet: {"profile.follow": target._id}});
                 return true;
             }
         }
