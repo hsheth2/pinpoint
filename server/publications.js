@@ -28,6 +28,7 @@ Meteor.publish("inRange", function() {
         var userObj = Meteor.users.findOne({
             _id: user
         });
+        if(!userObj) return [];
         var follow = userObj.profile.follow;
         if(!follow) return [];
         
@@ -51,8 +52,8 @@ Meteor.publish("inRange", function() {
                     longitude: lastLoc.lng
                 };
                 var distance = geolib.getDistance(myFixedLoc, fixedLoc, 1, 8);
+                //return distance < 50;
                 return true; // TODO fix this later
-                return distance < 50;
             }
         }, {
             fields: {

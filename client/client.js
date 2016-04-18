@@ -45,8 +45,9 @@ Template.follow.events({
     'submit #follow-form': function(e) {
         e.preventDefault();
         var username = $("#follow-user").val();
+        var followcode = $("#follow-code").val();
         console.log("request to follow user: " + username);
-        Meteor.call('follow', username, function(err, result) {
+        Meteor.call('follow', username, followcode, function(err, result) {
             if (err) console.log(err);
             if (result) {
                 console.log("followed user!");
@@ -79,6 +80,10 @@ Template.index.helpers({
     'numFriends': function() {
         if (!Meteor.user()) return 0;
         return Meteor.user().profile.follow.length;
+    },
+    'friendCode': function() {
+        if(!Meteor.user()) return "Loading...";
+        return Meteor.userId().substr(0,5);
     }
 });
 

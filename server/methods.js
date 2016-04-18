@@ -17,13 +17,15 @@ Meteor.methods({
       return false;
     },
 
-    follow: function(name) {
+    follow: function(name, code) {
         console.log("calling follow with name="+name);
         if(Meteor.user()) {
             var target = Meteor.users.findOne({"username": name});
             if(target) {
-                Meteor.users.update(Meteor.userId(), {$addToSet: {"profile.follow": target._id}});
-                return true;
+                if(code===target._id.substring(0,5)) {
+                    Meteor.users.update(Meteor.userId(), {$addToSet: {"profile.follow": target._id}});
+                    return true;
+                }
             }
         }
         return false;
