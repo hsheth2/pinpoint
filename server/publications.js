@@ -52,8 +52,8 @@ Meteor.publish("inRange", function() {
                     longitude: lastLoc.lng
                 };
                 var distance = geolib.getDistance(myFixedLoc, fixedLoc, 1, 8);
-                //return distance < 50;
-                return true; // TODO fix this later
+                return distance < 500;
+                //return true; // TODO fix this later
             }
         }, {
             fields: {

@@ -3,10 +3,10 @@
 App.info({
   id: 'hsheth.pinpoint',
   name: 'pinpoint',
-  description: '',
-  author: 'author',
-  email: 'contact@example.com',
-  website: 'http://example.com'
+  description: 'An application for finding nearby friends.',
+  author: 'Harshal Sheth, Aashish Welling, and Ankur Sundara',
+  // email: 'contact@example.com',
+  // website: 'http://example.com'
 });
 
 // Set up resources such as icons and launch screens.

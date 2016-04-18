@@ -29,10 +29,9 @@
                                 <td class="col-xs-3">{{{friendlyDist profile.lastPos}}}</td>
                                 <td class="col-xs-3">{{livestamp profile.lastPos.time}}</td>
                                 {{#if shouldDisp profile.lastPos}}
-                                                                <td class="col-xs-3">{{>arrow lastPos=profile.lastPos}}</td>
-
+                                    <td class="col-xs-3">{{>arrow lastPos=profile.lastPos}}</td>
                                 {{else}}
-                                                                   <td class="col-xs-3">Direction not available - too close!</td>     
+                                    <td class="col-xs-3">Direction not available - too close!</td>     
                                 {{/if}}
                             </tr>
                         {{/each}}
@@ -44,6 +43,6 @@
         {{else}}
             You are not following anyone!
         {{/if}}
-        <p>{{logs}}</p>
+        <!--<p>{{logs}}</p>-->
     {{/if}}
 </template>
